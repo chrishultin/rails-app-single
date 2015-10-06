@@ -109,6 +109,7 @@ parameters:
       - 2.1.2
       - 2.0.0-p481
       - 1.9.3-p547
+      - 2.2.1
 
   rails_environment:
     label: Rails Environment
@@ -195,7 +196,7 @@ parameters:
     label: Kitchen URL
     description: "URL for a git repo containing required cookbooks"
     type: string
-    default: https://github.com/rackspace-orchestration-templates/rails-app-single
+    default: https://github.com/chrishultin/rails-app-single
 
   chef_version:
     label: Chef Version
