@@ -32,6 +32,10 @@ application node['railsstack']['app_name'] do
   environment_name node['railsstack']['rails']['environment']
   migrate node['railsstack']['migrate']
 
+  bundle_install do
+    :update
+  end
+
   rails do
     bundle_command "#{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']}"
     bundler node['railsstack']['bundler']
