@@ -1,14 +1,11 @@
 #
-# Cookbook Name:: application_ruby
-# Resources:: passenger
-#
-# Copyright 2012, ZephirWorks
+# Copyright 2015, Noah Kantrowitz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,9 +14,16 @@
 # limitations under the License.
 #
 
-include ApplicationCookbook::ResourceBase
+include_recipe 'build-essential'
 
-attribute :server_aliases, :kind_of => [Array, NilClass], :default => nil
-# Actually defaults to "#{application.name}.conf.erb", but nil means it wasn't set by the user
-attribute :webapp_template, :kind_of => [String, NilClass], :default => nil
-attribute :params, :kind_of => [Hash, NilClass], :default => nil
+package value_for_platform_family(debian: 'ruby-dev', rhel: 'ruby-devel')
+
+application '/opt/test_sinatra' do
+  git 'https://github.com/poise/test_sinatra.git'
+  bundle_install do
+    deployment true
+  end
+  unicorn do
+    port 9000
+  end
+end
