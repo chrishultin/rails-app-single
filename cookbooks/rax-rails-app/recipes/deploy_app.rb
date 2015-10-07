@@ -54,6 +54,15 @@ application node['railsstack']['app_name'] do
   end
 
   before_restart do
+    bash "bundle install" do
+      action :run
+      user node['railsstack']['user']
+      cwd File.join(node['railsstack']['user_home'], node['railsstack']['app_name'], 'current')
+      environment 'RAILS_ENV' => node['railsstack']['rails']['environment']
+      code <<-EOH
+      #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} install
+      EOH
+    end
     node['railsstack']['rails']['rake_tasks'].each do |task|
       bash "do_extra_rake_task_#{task}" do
         action :run
@@ -62,15 +71,6 @@ application node['railsstack']['app_name'] do
         environment 'RAILS_ENV' => node['railsstack']['rails']['environment']
         code <<-EOH
         #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} exec rake #{task}
-        EOH
-      end
-      bash "bundle install" do
-        action :run
-        user node['railsstack']['user']
-        cwd File.join(node['railsstack']['user_home'], node['railsstack']['app_name'], 'current')
-        environment 'RAILS_ENV' => node['railsstack']['rails']['environment']
-        code <<-EOH
-        #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} install
         EOH
       end
     end
