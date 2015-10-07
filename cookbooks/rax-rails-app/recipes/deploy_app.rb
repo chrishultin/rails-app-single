@@ -32,7 +32,7 @@ application node['railsstack']['app_name'] do
   environment_name node['railsstack']['rails']['environment']
   migrate node['railsstack']['migrate']
 
-  application_rails do
+  rails do
     bundle_command "#{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']}"
     bundler node['railsstack']['bundler']
     bundler_deployment node['railsstack']['bundler_deployment']
@@ -51,9 +51,6 @@ application node['railsstack']['app_name'] do
       username db_user_id
       password db_user_pass
     end
-    bundle_install do
-      :update
-    end
   end
 
   before_restart do
@@ -67,6 +64,14 @@ application node['railsstack']['app_name'] do
         #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} exec rake #{task}
         EOH
       end
+      bash "bundle update" do
+        action :run
+        user node['railsstack']['user']
+        cwd File.join(node['railsstack']['user_home'], node['railsstack']['app_name'], 'current')
+        environment 'RAILS_ENV' => node['railsstack']['rails']['environment']
+        code <<-EOH
+        #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} update
+        EOH
     end
   end
 
