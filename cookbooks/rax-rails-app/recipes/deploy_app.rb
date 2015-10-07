@@ -21,15 +21,15 @@ end
 
 pkgs_to_install = commonly_required_packages + node['railsstack']['additional_packages']
 
-bash "bundle install" do
-  action :run
-  user node['railsstack']['user']
-  cwd File.join(node['railsstack']['user_home'], node['railsstack']['app_name'], 'current')
-  environment 'RAILS_ENV' => node['railsstack']['rails']['environment']
-  code <<-EOH
-  #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} install >> bundle.output
-  EOH
-end
+#bash "bundle install" do
+#  action :run
+#  user node['railsstack']['user']
+#  cwd File.join(node['railsstack']['user_home'], node['railsstack']['app_name'], 'current')
+#  environment 'RAILS_ENV' => node['railsstack']['rails']['environment']
+#  code <<-EOH
+#  #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} install >> bundle.output
+#  EOH
+#end
 
 application node['railsstack']['app_name'] do
   packages pkgs_to_install
