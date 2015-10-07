@@ -72,6 +72,7 @@ application node['railsstack']['app_name'] do
         code <<-EOH
         #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} update
         EOH
+      end
     end
   end
 
