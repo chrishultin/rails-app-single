@@ -60,7 +60,7 @@ application node['railsstack']['app_name'] do
       cwd File.join(node['railsstack']['user_home'], node['railsstack']['app_name'], 'current')
       environment 'RAILS_ENV' => node['railsstack']['rails']['environment']
       code <<-EOH
-      #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} install
+      #{node['railsstack']['ruby_wrapper']} -- #{node['railsstack']['bundle_path']} install >> bundle.output
       EOH
     end
     node['railsstack']['rails']['rake_tasks'].each do |task|
