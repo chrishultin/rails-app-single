@@ -110,6 +110,8 @@ parameters:
       - 2.0.0-p481
       - 1.9.3-p547
       - 2.2.1
+      - 2.2.2
+      - 2.2.0
 
   rails_environment:
     label: Rails Environment
